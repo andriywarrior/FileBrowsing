@@ -38,5 +38,11 @@ namespace FileBrowsing.Models
         /// </summary>
         [JsonProperty("SubdirsList")]
         public List<string> SubdirsList { get; set; }
+        
+        /// <summary>
+        /// List of files in current folder
+        /// </summary>
+        [JsonProperty("FilesList")]
+        public List<string> FilesList { get; set; }
     }
 }

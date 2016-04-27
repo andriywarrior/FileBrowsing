@@ -13,7 +13,7 @@
                 url += '&path=' + path;
 
             $http.get(url).success(function (response) {
-                if (response.Error == null)
+                if (response.Error == null && response != null)
                     $scope.result = response;
                 else
                     alert(response.Error);

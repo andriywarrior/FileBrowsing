@@ -4,23 +4,30 @@
 
 <div ng-controller="HomeController">
     <center>
-        <table border="1">
-            <tr>
-                <th>Less than 10Mb</th>
-                <th>10Mb-50Mb</th>
-                <th>More 100Mb</th>
+        <table class="files-table" border="1" cellspacing="0">
+            <tr class="tr-files-table">
+                <th class="th-files-table">Less than 10Mb</th>
+                <th class="th-files-table">10Mb-50Mb</th>
+                <th class="th-files-table">More 100Mb</th>
             </tr>
-            <tr>
-                <td align="center">{{result.CountFilesLessThan10Mb}}</td>
-                <td align="center">{{result.CountFilesBetween10And50Mb}}</td>
-                <td align="center">{{result.CountFilesMoreThan100Mb}}</td>
+            <tr class="tr-files-table">
+                <td class="td-files-table" align="center">{{result.CountFilesLessThan10Mb}}</td>
+                <td class="td-files-table" align="center">{{result.CountFilesBetween10And50Mb}}</td>
+                <td class="td-files-table" align="center">{{result.CountFilesMoreThan100Mb}}</td>
             </tr>
         </table>
     </center>
-    <hr />
     <p><b>Current folder:</b> <span class="curpath-text">{{result.CurrentPath}}</span></p>
-    <hr />
-    <p class="subdir-item" ng-repeat="item in result.SubdirsList" ng-click="getModel(item, result.CurrentPath)">
-        {{item}}
-    </p>
+    <table class="browse-table" border="1">
+        <tr class="tr-browse-table">
+            <td class="td-browse-table">
+                <p class="subdir-item" ng-repeat="item in result.SubdirsList" ng-click="getModel(item, result.CurrentPath)">
+                    {{item}}
+                </p>
+                <p class="file-item" ng-repeat="item in result.FilesList">
+                    {{item}}
+                </p>
+            </td>
+        </tr>
+    </table>    
 </div>

@@ -134,17 +134,19 @@ namespace FileBrowsing.Controllers
             _log.Trace("FillModel() called");
             _log.Trace("Filling Model...");
             int CountFilesLessThan10Mb, CountFilesBetween10And50Mb, CountFilesMoreThan100Mb;
-            Count(out CountFilesLessThan10Mb, out CountFilesBetween10And50Mb, out CountFilesMoreThan100Mb, path);
+            List<string> filesList = new List<string>();
+            Count(out CountFilesLessThan10Mb, out CountFilesBetween10And50Mb, out CountFilesMoreThan100Mb, ref filesList, path);
             _log.Debug("Files counted!");
             model.CountFilesLessThan10Mb = CountFilesLessThan10Mb;
             model.CountFilesBetween10And50Mb = CountFilesBetween10And50Mb;
             model.CountFilesMoreThan100Mb = CountFilesMoreThan100Mb;
+            model.FilesList = filesList;
             model.CurrentPath = path;
             _log.Debug("Model filled!");
         }
 
         private void Count(out int CountFilesLessThan10Mb, out int CountFilesBetween10And50Mb,
-            out int CountFilesMoreThan100Mb, string path = "")
+            out int CountFilesMoreThan100Mb, ref List<string> filesList, string path = "")
         {
             _log.Trace("Count() called");
             CountFilesLessThan10Mb = 0;
@@ -156,7 +158,7 @@ namespace FileBrowsing.Controllers
                 return;
             
             _log.Trace("Path is not null and not empty!");
-            CountFiles(ref CountFilesLessThan10Mb, ref CountFilesBetween10And50Mb, ref CountFilesMoreThan100Mb, path);
+            filesList = CountFiles(ref CountFilesLessThan10Mb, ref CountFilesBetween10And50Mb, ref CountFilesMoreThan100Mb, path, true);
             _log.Trace("Trying to count files in subdirectories...");
             var dirs = new DirectoryInfo(path).GetDirectories();
 
@@ -169,21 +171,25 @@ namespace FileBrowsing.Controllers
                 }
                 catch (UnauthorizedAccessException uae)
                 {
-                    _log.Error("[Count] Can't count files. {0}", uae.Message);
+                    _log.Warn("[Count] Can't count files. {0}", uae.Message);
                 }
             }
         }
 
-        private void CountFiles(ref int CountFilesLessThan10Mb, ref int CountFilesBetween10And50Mb,
-            ref int CountFilesMoreThan100Mb, string path = "")
+        private List<string> CountFiles(ref int CountFilesLessThan10Mb, ref int CountFilesBetween10And50Mb,
+            ref int CountFilesMoreThan100Mb, string path = "", bool isFillingFilesList = false)
         {
             _log.Trace("CountFiles() called");
             _log.Trace("Trying to count files in current directory...");
             int oneMb = 1024 * 1024;
             var files = new DirectoryInfo(path).GetFiles();
+            List<string> filesList = new List<string>();
 
             foreach (var fi in files)
             {
+                if (isFillingFilesList)
+                    filesList.Add(fi.Name);
+
                 double fileSizeInMb = fi.Length / (double)oneMb;
 
                 if (fileSizeInMb <= 10)
@@ -193,7 +199,10 @@ namespace FileBrowsing.Controllers
                 else if (fileSizeInMb >= 100)
                     CountFilesMoreThan100Mb++;
             }
+
             _log.Trace("Files in current directory counted!");
+
+            return filesList;
         }
     }
 }

@@ -2,32 +2,67 @@
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
     color: #232323;
-    background-color: #fff;
+    background-color: #f0f0f0;
+    width: 800px;
+    margin: 0 auto;
 }
 
 header, footer, nav, section {
     display: block;
 }
 
-th {
+.files-table {
+    border: solid;
+    border-width: 1px;
+    border-color: darkgrey;
+    width: 50%;
+}
+
+.th-files-table {
     background-color: darkgrey;
     color: white;
     font-weight: bold;
-    border-collapse: collapse;
-    border-style: solid;
+    border: none;
+    border-color: darkgrey;
 }
 
-hr {
-    height: 1px;
-    background-color: lightgray;
+.tr-files-table {
     border: none;
 }
+
+.td-files-table {
+    border: solid;
+    border-width: 1px;
+    border-color: darkgrey;
+}
+
 
 .curpath-text {
     color: gray;
 }
 
+.browse-table {
+    border: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    height: 500px;
+    width: 90%;
+}
+
+.tr-browse-table {
+    border: none;
+}
+
+.td-browse-table {
+    border: none;
+    vertical-align: text-top;
+}
+
 .subdir-item {
+    color: blue;
+}
+
+.file-item {
     color: blue;
     text-decoration: underline;
 }
